@@ -9,9 +9,7 @@ from schemas.car_model import CarModelCreate, CarModelUpdate
 
 
 class ServiceCarModel(APIBase[CarModel, CarModelCreate, CarModelUpdate]):
-    def create(
-        self, db: Session, *, obj_in: CarModelCreate
-    ) -> CarModel:
+    def create(self, db: Session, *, obj_in: CarModelCreate) -> CarModel:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)
         db.add(db_obj)
@@ -20,16 +18,25 @@ class ServiceCarModel(APIBase[CarModel, CarModelCreate, CarModelUpdate]):
         return db_obj
 
     def get_list(
-        self, db: Session, *, skip: int = 0, limit: int = 100
+        self,
+        db: Session,
+        *,
+        brand_id: int = 0,
+        skip: int = 0,
+        limit: int = 100,
+        name: str,
     ) -> List[CarModel]:
-        return (
-            # db.query(self.model)
-            # # .filter(CarModel.owner_id == owner_id)
-            # .offset(skip)
-            # .limit(limit)
-            # .all()
-            db.query(CarModel).all()
+        queryset = (
+            db.query(self.model)
+            .offset(skip)
+            .limit(limit)
+            .all()
         )
+        if brand_id != 0:
+            queryset = [x for x in queryset if x.brand_id == brand_id]
+        if name:
+            queryset = [x for x in queryset if name in x.name]
+        return queryset
 
     # def update(
     #     self, db: Session, *, obj_in: CarModelUpdate, db_obj: CarModel,
@@ -41,5 +48,6 @@ class ServiceCarModel(APIBase[CarModel, CarModelCreate, CarModelUpdate]):
     #     db.commit()
     #     db.refresh(db_obj)
     #     return db_obj
+
 
 car_model = ServiceCarModel(CarModel)

@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -13,13 +13,21 @@ router = APIRouter()
 @router.get("/", response_model=List[schemas.CarModel])
 def read_models(
     db: Session = Depends(deps.get_db),
+    brand_id: int = 0,
     skip: int = 0,
     limit: int = 100,
+    name: Optional[str] = None,
 ) -> Any:
     """
     Retrieve car models.
     """
-    car_models = car_model.get_list(db, skip=skip, limit=limit)
+    car_models = car_model.get_list(
+        db,
+        skip=skip,
+        brand_id=brand_id,
+        limit=limit,
+        name=name
+    )
     return car_models
 
 

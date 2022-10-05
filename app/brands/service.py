@@ -30,5 +30,15 @@ class ServiceCarBrand(APIBase[CarBrand, CarBrandCreate, CarBrandUpdate]):
             .all()
         )
 
+    # def update(
+    #     self, db: Session, *, obj_in: CarBrandUpdate, db_obj: CarBrand,
+    # ) -> CarBrand:
+    #     obj_in_data = jsonable_encoder(obj_in)
+    #     for key, value in obj_in_data.items():
+    #         setattr(db_obj, key, value)
+    #     db.add(db_obj)
+    #     db.commit()
+    #     db.refresh(db_obj)
+    #     return db_obj
 
 car_brand = ServiceCarBrand(CarBrand)

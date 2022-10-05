@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
 from db.base import Base
@@ -10,6 +11,6 @@ class CarBrand(Base):
     num_of_models = Column(Integer)
     logo_url = Column(String)
     description = Column(String)
-    last_update = Column(DateTime)
+    last_update = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
     status = Column(String, index=True)
     car_models = relationship("CarModel", back_populates="car_brand")

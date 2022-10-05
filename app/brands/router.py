@@ -31,8 +31,8 @@ def create_car_brand(
     """
     Create new car brand.
     """
-    car_brand = car_brand.create(db=db, obj_in=item_in)
-    return car_brand
+    data = car_brand.create(db=db, obj_in=item_in)
+    return data
 
 
 @router.put("/{id}", response_model=schemas.CarBrand)
@@ -45,11 +45,11 @@ def update_car_brand(
     """
     Update an car brand.
     """
-    car_brand = car_brand.get(db=db, id=id)
-    if not car_brand:
+    data = car_brand.get(db=db, id=id)
+    if not data:
         raise HTTPException(status_code=404, detail="Car brand not found")
-    data = car_brand.update(db=db, db_obj=car_brand, obj_in=item_in)
-    return data
+    response = car_brand.update(db=db, db_obj=data, obj_in=item_in)
+    return response
 
 
 @router.get("/{id}", response_model=schemas.CarBrand)
@@ -61,10 +61,10 @@ def read_car_brand(
     """
     Get car brand by ID.
     """
-    car_brand = car_brand.get(db=db, id=id)
-    if not car_brand:
+    data = car_brand.get(db=db, id=id)
+    if not data:
         raise HTTPException(status_code=404, detail="Car brand not found")
-    return car_brand
+    return data
 
 
 @router.delete("/{id}", response_model=schemas.CarBrand)
@@ -76,8 +76,8 @@ def delete_car_brand(
     """
     Delete an car brand.
     """
-    car_brand = car_brand.get(db=db, id=id)
-    if not car_brand:
+    data = car_brand.get(db=db, id=id)
+    if not data:
         raise HTTPException(status_code=404, detail="Item not found")
-    data = car_brand.remove(db=db, id=id)
-    return data
+    response = car_brand.remove(db=db, id=id)
+    return response

@@ -7,7 +7,7 @@ Create Date: 2022-10-05 09:26:19.184674
 """
 from alembic import op
 import sqlalchemy as sa
-
+from datetime import datetime
 
 # revision identifiers, used by Alembic.
 revision = 'b39cc33da97e'
@@ -21,9 +21,10 @@ def upgrade() -> None:
         "car_brand",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(), nullable=True),
+        sa.Column("logo_url", sa.String(), nullable=True),
         sa.Column("num_of_models", sa.Integer(), nullable=True),
         sa.Column("description", sa.String(), nullable=True),
-        sa.Column("last_update", sa.DateTime(), nullable=True),
+        sa.Column("last_update", sa.DateTime(), default=datetime.now, nullable=True, onupdate=datetime.now),
         sa.Column("status", sa.String(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )

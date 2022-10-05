@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+
+#for template
+jinja2
+python-jose
+aiofiles
+alembic
+
+sqlalchemy
+starlette
+psycopg2-binary
+pydantic
+python-dotenv
